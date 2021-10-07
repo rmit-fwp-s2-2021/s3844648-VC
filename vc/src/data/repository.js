@@ -12,9 +12,9 @@ async function verifyUser(username, password) {
   });
   const user = response.data;
 
-  if (user !== null) setUser(user);
+  if (user !== null) setUser(user.username);
 
-  return user;
+  return user.username;
 }
 
 async function findUser(id) {

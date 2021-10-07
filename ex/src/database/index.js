@@ -36,10 +36,10 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  const count = await db.user.count();
+  //Users
+  const userCount = await db.user.count();
 
-  // Only seed data if necessary.
-  if (count > 0) return;
+  if (userCount > 0) return;
 
   const argon2 = require("argon2");
 
@@ -55,6 +55,27 @@ async function seedData() {
     username: "shekhar",
     email: "mbolger@gmail.com",
     password_hash: hash,
+  });
+
+  //Posts
+  const postCount = await db.post.count();
+
+  if (postCount > 0) return;
+
+  await db.post.create({
+    text: "Post A",
+    image: null,
+    likes: 0,
+    dislikes: 0,
+    username: "mbolger",
+  });
+
+  await db.post.create({
+    text: "Post B",
+    image: null,
+    likes: 0,
+    dislikes: 0,
+    username: "shekhar",
   });
 }
 

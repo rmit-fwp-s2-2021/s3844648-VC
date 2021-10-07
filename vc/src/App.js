@@ -14,8 +14,7 @@ function App() {
   const [username, setUsername] = useState(getUser());
 
   const loginUser = (user) => {
-    const temp = user.username;
-    setUsername(temp);
+    setUsername(user);
   };
 
   const logoutUser = () => {

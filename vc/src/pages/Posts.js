@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getPosts, createPost } from "../data/repository";
@@ -7,10 +7,21 @@ import Post from "../components/Post";
 import UploadButton from "../components/UploadButton";
 
 function Posts(props) {
-  const [posts, setPosts] = useState(getPosts().reverse());
+  const [posts, setPosts] = useState(getPosts());
   const [newPost, setNewPost] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
+
+  // Load posts.
+  useEffect(() => {
+    async function loadPosts() {
+      const currentPosts = await getPosts();
+
+      setPosts(currentPosts);
+    }
+
+    loadPosts();
+  }, []);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
