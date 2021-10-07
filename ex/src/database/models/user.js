@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) =>
         type: DataTypes.STRING(96),
         allowNull: false,
       },
+      avatar: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       // Don't add the timestamp attributes (updatedAt, createdAt).
