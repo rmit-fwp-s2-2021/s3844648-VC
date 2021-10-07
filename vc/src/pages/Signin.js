@@ -18,7 +18,7 @@ export default function Signin(props) {
   const classes = useStyles();
 
   const [fields, setFields] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState(null);
@@ -37,8 +37,7 @@ export default function Signin(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //const verified = verifyUser(fields.email, fields.password);
-    const user = await verifyUser(fields.email, fields.password);
+    const user = await verifyUser(fields.username, fields.password);
 
     //if verified login the user
     if (user !== null) {
@@ -55,7 +54,7 @@ export default function Signin(props) {
     setFields(temp);
 
     //set error message
-    setErrorMessage("Invalid email or password");
+    setErrorMessage("Invalid username or password");
   };
 
   return (
@@ -67,7 +66,11 @@ export default function Signin(props) {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <TextField id="email" label="Email" onChange={handleInputChange} />
+        <TextField
+          id="username"
+          label="Username"
+          onChange={handleInputChange}
+        />
         <TextField
           id="password"
           label="Password"

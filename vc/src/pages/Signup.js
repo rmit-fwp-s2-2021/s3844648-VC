@@ -85,7 +85,7 @@ export default function Signup(props) {
       <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           id="username"
-          label="Name"
+          label="Username"
           onChange={handleInputChange}
           helperText={errors.username}
         />
