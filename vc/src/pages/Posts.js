@@ -7,7 +7,7 @@ import Post from "../components/Post";
 import UploadButton from "../components/UploadButton";
 
 function Posts(props) {
-  const [posts, setPosts] = useState(getPosts());
+  const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
@@ -44,9 +44,14 @@ function Posts(props) {
 
     //validate fields
     if (validate()) {
-      //save to localStorage
-      createPost(props.username, newPost);
-      setPosts(getPosts().reverse());
+      //save to db
+      const post = {
+        username: props.username,
+        text: newPost,
+        image: image,
+      };
+      createPost(post);
+      //setPosts(getPosts().reverse());
 
       //reset field to blank
       setNewPost("");
@@ -78,7 +83,7 @@ function Posts(props) {
         (post) =>
           post.username !== "[DELETED]" && (
             <Post
-              key={post.id}
+              key={post.post_id}
               post={post}
               username={props.username}
               setPosts={setPosts}

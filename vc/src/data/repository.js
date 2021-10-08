@@ -58,9 +58,21 @@ async function createPost(post) {
   return response.data;
 }
 
-async function getComments() {}
+//Comment-----------------------------------------------------------------------------------
 
-async function createComment(comment) {}
+async function getComments(post_id) {
+  const response = await axios.get(API_HOST + "/api/comments", post_id);
+
+  return response.data;
+}
+
+async function createComment(comment) {
+  const response = await axios.post(API_HOST + "/api/comments", comment);
+
+  return response.data;
+}
+
+//Other
 
 async function getFilteredPosts() {}
 

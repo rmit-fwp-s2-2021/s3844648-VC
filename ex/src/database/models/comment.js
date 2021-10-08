@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define(
-    "post",
+    "comment",
     {
-      post_id: {
+      comment_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,

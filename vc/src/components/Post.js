@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -17,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import "../App.css";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
-import { getPosts, createComment } from "../data/repository";
+import { getPosts, createComment, getComments } from "../data/repository";
 import ImageAvatar from "./Avatar";
 import { getAvatar } from "../data/repository";
 import { SystemUpdateTwoTone } from "@material-ui/icons";
@@ -48,9 +48,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Post({ post, username, setPosts, isFiltered }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadComments() {
+      const currentComments = await getComments(post.post_id);
+
+      setComments(currentComments);
+    }
+
+    loadComments();
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -78,7 +89,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
     //validate fields
     if (validate()) {
       //save to localStorage
-      createComment(post.id, username, newComment);
+      createComment(post.post_id, username, newComment);
       setPosts(getPosts().reverse());
 
       //reset field to blank
@@ -94,7 +105,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
           username === post.username && (
             <PostMenu
               post={post}
-              currentPost={post.post}
+              currentPost={post.text}
               setPosts={setPosts}
               isComment={false}
               isFiltered={isFiltered}
@@ -102,11 +113,11 @@ export default function Post({ post, username, setPosts, isFiltered }) {
           )
         }
         title={post.username}
-        subheader={post.date}
+        subheader={post.createdAt}
       />
       <CardContent>
         <Typography paragraph component="p">
-          {post.post}
+          {post.text}
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -126,9 +137,9 @@ export default function Post({ post, username, setPosts, isFiltered }) {
       </CardContent>
       <CardActions disableSpacing>
         <Typography variant="body1" color="textSecondary" component="p">
-          {post.replies.length} comment(s)
+          {comments.length} comment(s)
         </Typography>
-        {post.replies.length > 0 && (
+        {comments.length > 0 && (
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -143,7 +154,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {post.replies.map((comment) => (
+          {comments.map((comment) => (
             <Comment
               key={comment.id}
               post={post}
