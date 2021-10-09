@@ -58,6 +58,12 @@ async function createPost(post) {
   return response.data;
 }
 
+async function getFilteredPosts(username) {
+  const response = await axios.get(API_HOST + `/api/posts/select/${username}`);
+
+  return response.data;
+}
+
 //Comment-----------------------------------------------------------------------------------
 
 async function getComments(post_id) {
@@ -74,8 +80,6 @@ async function createComment(comment) {
 }
 
 //Other
-
-async function getFilteredPosts() {}
 
 async function setPost() {} //not required
 
