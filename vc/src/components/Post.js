@@ -53,13 +53,12 @@ export default function Post({ post, username, setPosts, isFiltered }) {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
+  async function loadComments() {
+    const currentComments = await getComments(post.post_id);
+
+    setComments(currentComments.reverse());
+  }
   useEffect(() => {
-    async function loadComments() {
-      const currentComments = await getComments(post.post_id);
-
-      setComments(currentComments);
-    }
-
     loadComments();
   }, []);
 
@@ -83,14 +82,20 @@ export default function Post({ post, username, setPosts, isFiltered }) {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     //validate fields
     if (validate()) {
-      //save to localStorage
-      createComment(post.post_id, username, newComment);
-      //setPosts(getPosts().reverse());
+      //save to db
+      const comment = {
+        username: username,
+        post_id: post.post_id,
+        text: newComment,
+        image: image,
+      };
+      await createComment(comment);
+      loadComments();
 
       //reset field to blank
       setNewComment("");

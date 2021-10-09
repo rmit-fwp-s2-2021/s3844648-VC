@@ -19,6 +19,7 @@ exports.create = async (req, res) => {
     likes: 0,
     dislikes: 0,
     username: req.body.username,
+    post_id: req.body.post_id,
   });
 
   res.json(comment);

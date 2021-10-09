@@ -39,7 +39,7 @@ function Posts(props) {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     //validate fields
@@ -50,7 +50,7 @@ function Posts(props) {
         text: newPost,
         image: image,
       };
-      createPost(post);
+      await createPost(post);
       loadPosts();
 
       //reset field to blank
