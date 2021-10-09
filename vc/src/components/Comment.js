@@ -46,19 +46,19 @@ export default function Comment({ post, comment, username, setPosts }) {
             <PostMenu
               post={post}
               comment={comment}
-              currentPost={comment.post}
+              currentPost={comment.text}
               setPosts={setPosts}
               isComment={true}
             />
           )
         }
         title={comment.username}
-        subheader={comment.date}
+        subheader={comment.createdAt}
       />
 
       <CardContent>
         <Typography variant="body2" component="p">
-          {comment.post}
+          {comment.text}
         </Typography>
       </CardContent>
     </Card>

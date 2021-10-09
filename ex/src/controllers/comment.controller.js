@@ -4,7 +4,7 @@ const db = require("../database");
 exports.all = async (req, res) => {
   const comments = await db.comment.findAll({
     where: {
-      post_id: req.body.post_id,
+      post_id: req.params.post_id,
     },
   });
 

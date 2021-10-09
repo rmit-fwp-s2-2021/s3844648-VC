@@ -90,7 +90,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
     if (validate()) {
       //save to localStorage
       createComment(post.post_id, username, newComment);
-      setPosts(getPosts().reverse());
+      //setPosts(getPosts().reverse());
 
       //reset field to blank
       setNewComment("");
@@ -156,11 +156,11 @@ export default function Post({ post, username, setPosts, isFiltered }) {
         <CardContent>
           {comments.map((comment) => (
             <Comment
-              key={comment.id}
+              key={comment.comment_id}
               post={post}
               comment={comment}
               username={username}
-              setPosts={setPosts}
+              setPosts={setPosts} //add setComments
               isFiltered={isFiltered}
             />
           ))}

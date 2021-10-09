@@ -16,7 +16,10 @@ exports.all = async (req, res) => {
 exports.create = async (req, res) => {
   const post = await db.post.create({
     text: req.body.text,
-    username: req.body.username
+    image: req.body.image,
+    likes: 0,
+    dislikes: 0,
+    username: req.body.username,
   });
 
   res.json(post);

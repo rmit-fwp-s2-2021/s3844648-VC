@@ -13,13 +13,13 @@ function Posts(props) {
   const [error, setError] = useState("");
 
   // Load posts.
+  async function loadPosts() {
+    const currentPosts = await getPosts();
+
+    setPosts(currentPosts.reverse());
+  }
+
   useEffect(() => {
-    async function loadPosts() {
-      const currentPosts = await getPosts();
-
-      setPosts(currentPosts);
-    }
-
     loadPosts();
   }, []);
 
@@ -51,7 +51,7 @@ function Posts(props) {
         image: image,
       };
       createPost(post);
-      //setPosts(getPosts().reverse());
+      loadPosts();
 
       //reset field to blank
       setNewPost("");

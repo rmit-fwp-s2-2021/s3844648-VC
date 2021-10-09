@@ -61,8 +61,9 @@ async function createPost(post) {
 //Comment-----------------------------------------------------------------------------------
 
 async function getComments(post_id) {
-  const response = await axios.get(API_HOST + "/api/comments", post_id);
-
+  const response = await axios.get(
+    API_HOST + `/api/comments/select/${post_id}`
+  );
   return response.data;
 }
 

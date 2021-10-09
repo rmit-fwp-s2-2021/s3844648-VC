@@ -3,7 +3,7 @@ module.exports = (express, app) => {
   const router = express.Router();
 
   // Select all comments.
-  router.get("/", controller.all);
+  router.get("/select/:post_id", controller.all);
 
   // Create a new comment.
   router.post("/", controller.create);
