@@ -14,13 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import { blue } from "@material-ui/core/colors";
 import ImageAvatar from "./Avatar";
-import {
-  getEmail,
-  getPassword,
-  getJoinDate,
-  setAvatar,
-  getAvatar,
-} from "../data/repository";
+import { updateUser } from "../data/repository";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 const useStyles = makeStyles({
@@ -38,16 +32,13 @@ function SimpleDialog(props) {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value) => {
-    setAvatar(props.user.username, value);
-    const updatedUser = {
+  const handleListItemClick = async (value) => {
+    const updatedUserInfo = {
       username: props.user.username,
-      email: getEmail(props.user.username),
-      password: getPassword(props.user.username),
-      avatar: getAvatar(props.user.username),
-      joinDate: getJoinDate(props.user.username),
+      avatar: value,
     };
-    props.setUser(updatedUser);
+    const newUser = await updateUser(updatedUserInfo);
+    props.setUser(newUser);
     handleClose();
   };
 
@@ -61,11 +52,6 @@ function SimpleDialog(props) {
         Choose your new profile picture
       </DialogTitle>
       <List>
-        <ListItem button onClick={() => handleListItemClick(0)}>
-          <ListItemAvatar>
-            <ImageAvatar avatarImage={0} size="profile" />
-          </ListItemAvatar>
-        </ListItem>
         <ListItem button onClick={() => handleListItemClick(1)}>
           <ListItemAvatar>
             <ImageAvatar avatarImage={1} size="profile" />
@@ -79,6 +65,11 @@ function SimpleDialog(props) {
         <ListItem button onClick={() => handleListItemClick(3)}>
           <ListItemAvatar>
             <ImageAvatar avatarImage={3} size="profile" />
+          </ListItemAvatar>
+        </ListItem>
+        <ListItem button onClick={() => handleListItemClick(4)}>
+          <ListItemAvatar>
+            <ImageAvatar avatarImage={4} size="profile" />
           </ListItemAvatar>
         </ListItem>
       </List>

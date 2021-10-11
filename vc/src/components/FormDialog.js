@@ -7,16 +7,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DeleteAlert from "./DeleteAlert";
-import {
-  setEmail,
-  setPassword,
-  getEmail,
-  getPassword,
-  getJoinDate,
-  getAvatar,
-} from "../data/repository";
+import { updateUser } from "../data/repository";
 
-export default function FormDialog(props) {
+export default function FormDialog({ user, setUser, logoutUser }) {
   const [open, setOpen] = React.useState(false);
   const [fields, setFields] = useState({
     email: "",
@@ -41,29 +34,23 @@ export default function FormDialog(props) {
     setFields(temp);
   };
 
-  const handleEmail = () => {
-    setEmail(props.user.username, fields.email);
-    const updatedUser = {
-      username: props.user.username,
-      email: getEmail(props.user.username),
-      password: getPassword(props.user.username),
-      avatar: getAvatar(props.user.username),
-      joinDate: getJoinDate(props.user.username),
+  const handleEmail = async () => {
+    const updatedUserInfo = {
+      username: user.username,
+      email: fields.email,
     };
-    props.setUser(updatedUser);
+    const newUser = await updateUser(updatedUserInfo);
+    setUser(newUser);
     handleClose();
   };
 
-  const handlePassword = () => {
-    setPassword(props.user.username, fields.password);
-    const updatedUser = {
-      username: props.user.username,
-      email: getEmail(props.user.username),
-      password: getPassword(props.user.username),
-      avatar: getAvatar(props.user.username),
-      joinDate: getJoinDate(props.user.username),
+  const handlePassword = async () => {
+    const updatedUserInfo = {
+      username: user.username,
+      password: fields.password,
     };
-    props.setUser(updatedUser);
+    const newUser = await updateUser(updatedUserInfo);
+    setUser(newUser);
     handleClose();
   };
 
@@ -86,7 +73,7 @@ export default function FormDialog(props) {
             id="username"
             label="username"
             fullWidth
-            defaultValue={props.user.username}
+            defaultValue={user.username}
             disabled
           />
           <Button color="primary" disabled>
@@ -96,7 +83,7 @@ export default function FormDialog(props) {
             id="email"
             label="Email"
             fullWidth
-            defaultValue={props.user.email}
+            defaultValue={user.email}
             onChange={handleInputChange}
           />
           <Button onClick={handleEmail} color="primary">
@@ -106,7 +93,7 @@ export default function FormDialog(props) {
             id="password"
             label="Password"
             fullWidth
-            defaultValue={props.user.password}
+            defaultValue={user.password}
             onChange={handleInputChange}
           />
           <Button onClick={handlePassword} color="primary">
@@ -114,10 +101,7 @@ export default function FormDialog(props) {
           </Button>
         </DialogContent>
         <Button color="primary">
-          <DeleteAlert
-            username={props.user.username}
-            logoutUser={props.logoutUser}
-          />
+          <DeleteAlert username={user.username} logoutUser={logoutUser} />
         </Button>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

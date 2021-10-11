@@ -17,9 +17,8 @@ import Button from "@material-ui/core/Button";
 import "../App.css";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
-import { getPosts, createComment, getComments } from "../data/repository";
+import { getAvatar, createComment, getComments } from "../data/repository";
 import ImageAvatar from "./Avatar";
-import { getAvatar } from "../data/repository";
 import { SystemUpdateTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,14 +51,23 @@ export default function Post({ post, username, setPosts, isFiltered }) {
   const [newComment, setNewComment] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   async function loadComments() {
     const currentComments = await getComments(post.post_id);
 
     setComments(currentComments.reverse());
   }
+
+  async function loadAvatar() {
+    const userAvatar = await getAvatar(post.username);
+    console.log("avatar: " + userAvatar);
+    setAvatar(userAvatar);
+  }
+
   useEffect(() => {
     loadComments();
+    loadAvatar();
   }, []);
 
   const handleExpandClick = () => {
@@ -105,7 +113,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
   return (
     <Card className="post-card">
       <CardHeader
-        avatar={<ImageAvatar avatarImage={getAvatar(post.username)} />}
+        avatar={<ImageAvatar avatarImage={avatar} />}
         action={
           username === post.username && (
             <PostMenu
@@ -161,7 +169,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
         <CardContent>
           {comments.map((comment) => (
             <Comment
-              key={comment.comment_id}
+              key={"comment" + comment.comment_id}
               post={post}
               comment={comment}
               username={username}

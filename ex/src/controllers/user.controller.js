@@ -41,3 +41,26 @@ exports.create = async (req, res) => {
 
   res.json(user);
 };
+
+exports.update = async (req, res) => {
+  const user = await db.user.findByPk(req.body.username);
+
+  if (req.body.email) {
+    user.email = req.body.email;
+  }
+
+  if (req.body.password) {
+    const hash = await argon2.hash(req.body.password, {
+      type: argon2.argon2id,
+    });
+    user.password_hash = hash;
+  }
+
+  if (req.body.avatar) {
+    user.avatar = req.body.avatar;
+  }
+
+  await user.save();
+
+  res.json(user);
+};

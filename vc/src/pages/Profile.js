@@ -37,6 +37,7 @@ const Profile = (props) => {
             user={user}
             setUser={setUser}
             logoutUser={props.logoutUser}
+            loadUser={loadUser}
           />
         </div>
         <div>
@@ -47,7 +48,7 @@ const Profile = (props) => {
       <h1>Your Posts</h1>
       {usersPosts.map((post) => (
         <Post
-          key={post.post_id}
+          key={"post" + post.post_id}
           post={post}
           username={props.username}
           setPosts={setUsersPosts}

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImageAvatar({ avatarImage, size }) {
   const classes = useStyles();
-  const avatarImages = [Lion, Badger, Eagle, Snake];
+  const avatarImages = [Lion, Lion, Badger, Eagle, Snake];
   return (
     <div className={classes.root}>
       <Avatar

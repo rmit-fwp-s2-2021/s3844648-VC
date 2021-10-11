@@ -29,21 +29,19 @@ async function createUser(user) {
   return response.data;
 }
 
-async function getAvatar(user) {}
+async function getAvatar(id) {
+  const user = findUser(id);
 
-async function getEmail(user) {}
+  return user.avatar;
+}
 
-async function getJoinDate(user) {}
+async function updateUser(user) {
+  const response = await axios.put(API_HOST + "/api/users", user);
 
-async function getPassword(user) {}
+  return response.data;
+}
 
-async function setAvatar(user, newAvatar) {}
-
-async function setEmail(user, newEmail) {}
-
-async function setPassword(user, newnewPassword) {}
-
-async function deleteUser(id) {}
+async function deleteUser(username) {}
 
 //Post -------------------------------------------------------------------------------------
 async function getPosts() {
@@ -106,13 +104,8 @@ export {
   verifyUser,
   findUser,
   createUser,
-  getEmail,
   getAvatar,
-  getJoinDate,
-  getPassword,
-  setAvatar,
-  setEmail,
-  setPassword,
+  updateUser,
   deleteUser,
   getPosts,
   createPost,

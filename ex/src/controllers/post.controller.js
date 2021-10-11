@@ -13,7 +13,7 @@ exports.all = async (req, res) => {
 };
 
 exports.byUser = async (req, res) => {
-  const posts = await db.comment.findAll({
+  const posts = await db.post.findAll({
     where: {
       username: req.params.username,
     },
