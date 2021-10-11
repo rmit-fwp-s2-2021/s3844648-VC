@@ -64,3 +64,11 @@ exports.update = async (req, res) => {
 
   res.json(user);
 };
+
+exports.delete = async (req, res) => {
+  const user = await db.user.findByPk(req.params.id);
+
+  await user.destroy();
+
+  res.json(user);
+};

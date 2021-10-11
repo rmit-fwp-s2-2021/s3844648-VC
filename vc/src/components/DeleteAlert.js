@@ -25,9 +25,9 @@ export default function DeleteAlert(props) {
     setOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log(props.username);
-    deleteUser(props.username);
+    await deleteUser(props.username);
     props.logoutUser();
 
     history.push("/signin");
