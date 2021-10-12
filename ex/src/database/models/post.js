@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) =>
         allowNull: false,
       },
       image: {
-        type: DataTypes.STRING(600),
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       likes: {

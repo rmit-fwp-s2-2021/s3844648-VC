@@ -20,6 +20,7 @@ import PostMenu from "./PostMenu";
 import { getAvatar, createComment, getComments } from "../data/repository";
 import ImageAvatar from "./Avatar";
 import { SystemUpdateTwoTone } from "@material-ui/icons";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,12 +45,68 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const uploadStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
+
+function UploadButton({ setCommentImage }) {
+  const classes = uploadStyles();
+
+  // convertToBase64 function source: https://medium.com/nerd-for-tech/how-to-store-an-image-to-a-database-with-react-using-base-64-9d53147f6c4f
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const fileSelectHandler = async (event) => {
+    const file = event.target.files[0];
+    const base64 = await convertToBase64(file);
+    setCommentImage(base64);
+  };
+
+  return (
+    <span className={classes.root}>
+      <input
+        accept="image/*"
+        className={classes.input}
+        id="icon-button-file"
+        type="file"
+        onChange={fileSelectHandler}
+      />
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="span"
+        >
+          <PhotoCamera />
+        </IconButton>
+      </label>
+    </span>
+  );
+}
+
 export default function Post({ post, username, setPosts, isFiltered }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [image, setImage] = useState("");
+  const [commentImage, setCommentImage] = useState("");
   const [error, setError] = useState("");
   const [avatar, setAvatar] = useState("");
 
@@ -100,7 +157,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
         username: username,
         post_id: post.post_id,
         text: newComment,
-        image: image,
+        image: commentImage,
       };
       await createComment(comment);
       loadComments();
@@ -132,6 +189,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
         <Typography paragraph component="p">
           {post.text}
         </Typography>
+        <img src={post.image} />
         <form onSubmit={handleSubmit}>
           <TextField
             id="newComment"
@@ -146,6 +204,9 @@ export default function Post({ post, username, setPosts, isFiltered }) {
           <Button type="submit" variant="contained" color="primary">
             Post
           </Button>
+          <UploadButton setCommentImage={setCommentImage} />
+          <img src={commentImage} />
+          <p>yo?</p>
         </form>
       </CardContent>
       <CardActions disableSpacing>

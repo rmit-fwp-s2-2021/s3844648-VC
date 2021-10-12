@@ -55,6 +55,7 @@ function Posts(props) {
 
       //reset field to blank
       setNewPost("");
+      setImage("");
     }
   };
 
@@ -76,6 +77,8 @@ function Posts(props) {
           <Button type="submit" variant="contained" color="primary">
             Post
           </Button>
+          <UploadButton setImage={setImage} />
+          <img src={image} />
         </form>
       </main>
       <h1>Posts</h1>
