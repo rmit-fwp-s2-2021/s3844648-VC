@@ -56,7 +56,7 @@ const uploadStyles = makeStyles((theme) => ({
   },
 }));
 
-function UploadButton({ setCommentImage }) {
+function ImageButton({ setCommentImage }) {
   const classes = uploadStyles();
 
   // convertToBase64 function source: https://medium.com/nerd-for-tech/how-to-store-an-image-to-a-database-with-react-using-base-64-9d53147f6c4f
@@ -76,6 +76,7 @@ function UploadButton({ setCommentImage }) {
   const fileSelectHandler = async (event) => {
     const file = event.target.files[0];
     const base64 = await convertToBase64(file);
+    console.log(base64);
     setCommentImage(base64);
   };
 
@@ -103,6 +104,7 @@ function UploadButton({ setCommentImage }) {
 
 export default function Post({ post, username, setPosts, isFiltered }) {
   const classes = useStyles();
+  const uploadButtonClasses = uploadStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -118,7 +120,6 @@ export default function Post({ post, username, setPosts, isFiltered }) {
 
   async function loadAvatar() {
     const userAvatar = await getAvatar(post.username);
-    console.log("avatar: " + userAvatar);
     setAvatar(userAvatar);
   }
 
@@ -135,6 +136,27 @@ export default function Post({ post, username, setPosts, isFiltered }) {
     const value = event.target.value;
 
     setNewComment(value);
+  };
+
+  // convertToBase64 function source: https://medium.com/nerd-for-tech/how-to-store-an-image-to-a-database-with-react-using-base-64-9d53147f6c4f
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const imgSelectHandler = async (event) => {
+    const file = event.target.files[0];
+    const base64 = await convertToBase64(file);
+    console.log(base64);
+    setCommentImage(base64);
   };
 
   const validate = () => {
@@ -204,9 +226,25 @@ export default function Post({ post, username, setPosts, isFiltered }) {
           <Button type="submit" variant="contained" color="primary">
             Post
           </Button>
-          <UploadButton setCommentImage={setCommentImage} />
+          <span className={uploadButtonClasses.root}>
+            <input
+              accept="image/*"
+              className={uploadButtonClasses.input}
+              id="icon-button-file"
+              type="file"
+              onChange={imgSelectHandler}
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <PhotoCamera />
+              </IconButton>
+            </label>
+          </span>
           <img src={commentImage} />
-          <p>yo?</p>
         </form>
       </CardContent>
       <CardActions disableSpacing>

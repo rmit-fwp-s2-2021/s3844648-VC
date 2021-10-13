@@ -35,6 +35,7 @@ export default function UploadButton({ setImage }) {
   const fileSelectHandler = async (event) => {
     const file = event.target.files[0];
     const base64 = await convertToBase64(file);
+    console.log("this is UploadButtion.js");
     setImage(base64);
   };
 
