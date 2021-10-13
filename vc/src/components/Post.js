@@ -56,52 +56,6 @@ const uploadStyles = makeStyles((theme) => ({
   },
 }));
 
-function ImageButton({ setCommentImage }) {
-  const classes = uploadStyles();
-
-  // convertToBase64 function source: https://medium.com/nerd-for-tech/how-to-store-an-image-to-a-database-with-react-using-base-64-9d53147f6c4f
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-  const fileSelectHandler = async (event) => {
-    const file = event.target.files[0];
-    const base64 = await convertToBase64(file);
-    console.log(base64);
-    setCommentImage(base64);
-  };
-
-  return (
-    <span className={classes.root}>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="icon-button-file"
-        type="file"
-        onChange={fileSelectHandler}
-      />
-      <label htmlFor="icon-button-file">
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="span"
-        >
-          <PhotoCamera />
-        </IconButton>
-      </label>
-    </span>
-  );
-}
-
 export default function Post({ post, username, setPosts, isFiltered }) {
   const classes = useStyles();
   const uploadButtonClasses = uploadStyles();
@@ -155,7 +109,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
   const imgSelectHandler = async (event) => {
     const file = event.target.files[0];
     const base64 = await convertToBase64(file);
-    console.log(base64);
+    console.log("imgSelectHandler triggered");
     setCommentImage(base64);
   };
 
@@ -230,7 +184,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
             <input
               accept="image/*"
               className={uploadButtonClasses.input}
-              id="icon-button-file"
+              id="comment-icon-button-file"
               type="file"
               onChange={imgSelectHandler}
             />
