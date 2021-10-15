@@ -17,7 +17,12 @@ import Button from "@material-ui/core/Button";
 import "../App.css";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
-import { getAvatar, createComment, getComments } from "../data/repository";
+import {
+  getAvatar,
+  createComment,
+  getComments,
+  findUser,
+} from "../data/repository";
 import ImageAvatar from "./Avatar";
 import { SystemUpdateTwoTone } from "@material-ui/icons";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
@@ -92,27 +97,6 @@ export default function Post({ post, username, setPosts, isFiltered }) {
     setNewComment(value);
   };
 
-  // convertToBase64 function source: https://medium.com/nerd-for-tech/how-to-store-an-image-to-a-database-with-react-using-base-64-9d53147f6c4f
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-  const imgSelectHandler = async (event) => {
-    const file = event.target.files[0];
-    const base64 = await convertToBase64(file);
-    console.log("imgSelectHandler triggered");
-    setCommentImage(base64);
-  };
-
   const validate = () => {
     if (newComment !== "") {
       setError("");
@@ -180,25 +164,6 @@ export default function Post({ post, username, setPosts, isFiltered }) {
           <Button type="submit" variant="contained" color="primary">
             Post
           </Button>
-          <span className={uploadButtonClasses.root}>
-            <input
-              accept="image/*"
-              className={uploadButtonClasses.input}
-              id="comment-icon-button-file"
-              type="file"
-              onChange={imgSelectHandler}
-            />
-            <label htmlFor="icon-button-file">
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <PhotoCamera />
-              </IconButton>
-            </label>
-          </span>
-          <img src={commentImage} />
         </form>
       </CardContent>
       <CardActions disableSpacing>
@@ -226,7 +191,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
               post={post}
               comment={comment}
               username={username}
-              setPosts={setPosts} //add setComments
+              setPosts={setPosts}
               isFiltered={isFiltered}
             />
           ))}

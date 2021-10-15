@@ -30,7 +30,7 @@ async function createUser(user) {
 }
 
 async function getAvatar(id) {
-  const user = findUser(id);
+  const user = await findUser(id);
 
   return user.avatar;
 }
@@ -43,6 +43,12 @@ async function updateUser(user) {
 
 async function deleteUser(id) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${id}`);
+
+  return response.data;
+}
+
+async function getUsers() {
+  const response = await axios.get(API_HOST + "/api/users");
 
   return response.data;
 }
@@ -77,6 +83,24 @@ async function getComments(post_id) {
 
 async function createComment(comment) {
   const response = await axios.post(API_HOST + "/api/comments", comment);
+
+  return response.data;
+}
+
+//Follow
+async function follow(follows) {
+  const response = await axios.post(API_HOST + "/api/follows", follows);
+
+  return response.data;
+}
+
+async function unfollow(follows) {
+  const username = follows.username;
+  const followee = follows.followee;
+  const response = await axios.delete(
+    API_HOST + "/api/follows/delete",
+    follows
+  );
 
   return response.data;
 }
@@ -122,4 +146,7 @@ export {
   setComment,
   deletePost,
   deleteComment,
+  getUsers,
+  follow,
+  unfollow,
 };

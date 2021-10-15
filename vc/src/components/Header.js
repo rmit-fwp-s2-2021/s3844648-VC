@@ -47,6 +47,9 @@ const Header = (props) => {
               <Button onClick={() => handleMenuClick("/posts")} color="inherit">
                 Posts
               </Button>
+              <Button onClick={() => handleMenuClick("/users")} color="inherit">
+                Users
+              </Button>
               <Button
                 onClick={() => handleMenuClick("/profile")}
                 color="inherit"

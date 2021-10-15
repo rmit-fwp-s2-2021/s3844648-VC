@@ -1,4 +1,4 @@
-// This express app is built off code from Week 8 lab code archive
+// This express app is built off code from the Week 8 lab code archive
 
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
@@ -17,11 +17,13 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.comment = require("./models/comment.js")(db.sequelize, DataTypes);
+db.follow = require("./models/follow.js")(db, DataTypes);
 
-// Relate post and user.
+// Relations
 db.post.belongsTo(db.user, {
   foreignKey: { name: "username", allowNull: false },
 });
+
 db.comment.belongsTo(db.post, {
   foreignKey: { name: "post_id", allowNull: false },
 });
@@ -29,7 +31,9 @@ db.comment.belongsTo(db.user, {
   foreignKey: { name: "username", allowNull: false },
 });
 
-// Learn more about associations here: https://sequelize.org/master/manual/assocs.html
+db.user.hasMany(db.follow, {
+  foreignKey: "username",
+});
 
 // Include a sync option with seed data logic included.
 db.sync = async () => {
@@ -54,6 +58,7 @@ async function seedData() {
       username: "mbolger",
       email: "mbolger@gmail.com",
       password_hash: hash,
+      avatar: 3,
     });
 
     hash = await argon2.hash("def456", { type: argon2.argon2id });
@@ -61,6 +66,7 @@ async function seedData() {
       username: "shekhar",
       email: "shekhar@gmail.com",
       password_hash: hash,
+      avatar: 2,
     });
 
     hash = await argon2.hash("1", { type: argon2.argon2id });
@@ -68,6 +74,7 @@ async function seedData() {
       username: "jerin",
       email: "jerin@gmail.com",
       password_hash: hash,
+      avatar: 2,
     });
   }
 
@@ -103,6 +110,34 @@ async function seedData() {
       dislikes: 0,
       username: "shekhar",
       post_id: 1,
+    });
+
+    await db.comment.create({
+      text: "Comment B",
+      image: null,
+      likes: 0,
+      dislikes: 0,
+      username: "jerin",
+      post_id: 2,
+    });
+  }
+
+  //Follows
+  const followCount = await db.follow.count();
+  if (!(followCount > 0)) {
+    await db.follow.create({
+      username: "jerin",
+      followee: "mbolger",
+    });
+
+    await db.follow.create({
+      username: "jerin",
+      followee: "shekhar",
+    });
+
+    await db.follow.create({
+      username: "mbolger",
+      followee: "shekhar",
     });
   }
 }

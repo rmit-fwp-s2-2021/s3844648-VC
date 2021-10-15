@@ -6,6 +6,7 @@ import Signin from "./pages/Signin";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Posts from "./pages/Posts";
+import Users from "./pages/Users";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getUser, removeUser } from "./data/repository";
 import React, { useState } from "react";
@@ -42,6 +43,10 @@ function App() {
           <Route
             path="/posts"
             render={(props) => <Posts {...props} username={username} />}
+          />
+          <Route
+            path="/users"
+            render={(props) => <Users {...props} username={username} />}
           />
         </Switch>
         <Footer />

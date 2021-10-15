@@ -5,6 +5,12 @@ import { findUser, getFilteredPosts } from "../data/repository";
 import ImageAvatar from "../components/Avatar";
 import Post from "../components/Post";
 import AvatarSelection from "../components/AvatarSelection";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 const Profile = (props) => {
   const [user, setUser] = useState("");
   const [usersPosts, setUsersPosts] = useState([]);
@@ -45,6 +51,21 @@ const Profile = (props) => {
           <AvatarSelection user={user} setUser={setUser} />
         </div>
       </main>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Accordion 1</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
       <h1>Your Posts</h1>
       {usersPosts.map((post) => (
         <Post
