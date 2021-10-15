@@ -13,12 +13,18 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Profile = (props) => {
   const [user, setUser] = useState("");
+  const [followedUsers, setFollowedUsers] = useState([]);
   const [usersPosts, setUsersPosts] = useState([]);
 
   async function loadUser() {
     const currentUser = await findUser(props.username);
 
     setUser(currentUser);
+
+    const followed = [];
+    currentUser.follows.forEach((follow) => followed.push(follow.followee));
+
+    setFollowedUsers(followed);
   }
 
   async function loadUserPosts() {
@@ -51,21 +57,23 @@ const Profile = (props) => {
           <AvatarSelection user={user} setUser={setUser} />
         </div>
       </main>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Accordion 1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+      <main>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>{followedUsers.length} Following</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {followedUsers.map((followee) => (
+              <Typography>{followee}</Typography>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      </main>
+
       <h1>Your Posts</h1>
       {usersPosts.map((post) => (
         <Post
