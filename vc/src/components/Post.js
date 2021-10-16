@@ -26,6 +26,7 @@ import {
 import ImageAvatar from "./Avatar";
 import { SystemUpdateTwoTone } from "@material-ui/icons";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import DOMPurify from "dompurify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +93,7 @@ export default function Post({ post, username, setPosts, isFiltered }) {
   };
 
   const handleInputChange = (event) => {
-    const value = event.target.value;
+    const value = DOMPurify.sanitize(event.target.value);
 
     setNewComment(value);
   };

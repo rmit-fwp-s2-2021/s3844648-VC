@@ -4,10 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { getPosts, createPost } from "../data/repository";
 import Post from "../components/Post";
-//import UploadButton from "../components/UploadButton";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import DOMPurify from "dompurify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +39,7 @@ function Posts(props) {
   }, []);
 
   const handleInputChange = (event) => {
-    const value = event.target.value;
+    const value = DOMPurify.sanitize(event.target.value);
 
     setNewPost(value);
   };

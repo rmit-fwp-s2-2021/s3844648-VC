@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DeleteAlert from "./DeleteAlert";
 import { updateUser } from "../data/repository";
+import DOMPurify from "dompurify";
 
 export default function FormDialog({ user, setUser, logoutUser }) {
   const [open, setOpen] = React.useState(false);
@@ -27,7 +28,8 @@ export default function FormDialog({ user, setUser, logoutUser }) {
   const handleInputChange = (event) => {
     console.log(event.target.id + ": " + event.target.value);
     const name = event.target.id;
-    const value = event.target.value;
+
+    const value = DOMPurify.sanitize(event.target.value);
 
     const temp = { ...fields };
     temp[name] = value;

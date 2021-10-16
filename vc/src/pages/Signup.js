@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { createUser } from "../data/repository";
+import DOMPurify from "dompurify";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -31,7 +33,8 @@ export default function Signup(props) {
   const handleInputChange = (event) => {
     console.log(event.target.id + ": " + event.target.value);
     const name = event.target.id;
-    const value = event.target.value;
+
+    const value = DOMPurify.sanitize(event.target.value);
 
     const temp = { ...fields };
     temp[name] = value;
