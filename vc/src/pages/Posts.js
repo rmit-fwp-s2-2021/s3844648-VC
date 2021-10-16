@@ -138,12 +138,7 @@ function Posts(props) {
       {posts.map(
         (post) =>
           post.username !== "[DELETED]" && (
-            <Post
-              key={post.post_id}
-              post={post}
-              username={props.username}
-              setPosts={setPosts}
-            />
+            <Post key={post.post_id} post={post} username={props.username} />
           )
       )}
     </div>

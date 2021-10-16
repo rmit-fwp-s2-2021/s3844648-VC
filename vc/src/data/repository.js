@@ -95,8 +95,6 @@ async function follow(follows) {
 }
 
 async function unfollow(follows) {
-  const username = follows.username;
-  const followee = follows.followee;
   const response = await axios.delete(
     API_HOST + "/api/follows/delete",
     follows
@@ -104,16 +102,6 @@ async function unfollow(follows) {
 
   return response.data;
 }
-
-//Other
-
-async function setPost() {} //not required
-
-async function setComment() {} //not required
-
-async function deletePost() {} //not required
-
-async function deleteComment() {} //not required
 
 //Helper functions to interact with local storage ------------------------------------------
 function setUser(user) {
@@ -142,10 +130,6 @@ export {
   getComments,
   createComment,
   getFilteredPosts,
-  setPost,
-  setComment,
-  deletePost,
-  deleteComment,
   getUsers,
   follow,
   unfollow,

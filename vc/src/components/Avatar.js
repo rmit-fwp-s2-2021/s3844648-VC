@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
   profile: {
     width: theme.spacing(12),
     height: theme.spacing(12),

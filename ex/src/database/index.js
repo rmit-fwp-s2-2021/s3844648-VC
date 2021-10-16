@@ -66,7 +66,7 @@ async function seedData() {
       username: "shekhar",
       email: "shekhar@gmail.com",
       password_hash: hash,
-      avatar: 2,
+      avatar: 1,
     });
 
     hash = await argon2.hash("1", { type: argon2.argon2id });
@@ -75,6 +75,14 @@ async function seedData() {
       email: "jerin@gmail.com",
       password_hash: hash,
       avatar: 2,
+    });
+
+    hash = await argon2.hash("2", { type: argon2.argon2id });
+    await db.user.create({
+      username: "draco",
+      email: "draco@gmail.com",
+      password_hash: hash,
+      avatar: 4,
     });
   }
 

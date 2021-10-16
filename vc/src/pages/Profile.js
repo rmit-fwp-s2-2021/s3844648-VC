@@ -80,8 +80,6 @@ const Profile = (props) => {
           key={"post" + post.post_id}
           post={post}
           username={props.username}
-          setPosts={setUsersPosts}
-          isFiltered={true}
         />
       ))}
     </div>
