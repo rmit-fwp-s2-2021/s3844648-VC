@@ -45,11 +45,11 @@ function Posts(props) {
   };
 
   const validate = () => {
-    if (newPost !== "") {
+    if (newPost !== "" && newPost.length < 600) {
       setError("");
       return true;
     } else {
-      setError("post may not be empty");
+      setError("post may not be empty or more than 600 characters");
       return false;
     }
   };
@@ -131,6 +131,7 @@ function Posts(props) {
               </IconButton>
             </label>
           </span>
+          <p>{newPost.length} characters</p>
           <img src={image} />
         </form>
       </main>

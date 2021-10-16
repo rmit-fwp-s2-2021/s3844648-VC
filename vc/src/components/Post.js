@@ -77,11 +77,11 @@ export default function Post({ post, username }) {
   };
 
   const validate = () => {
-    if (newComment !== "") {
+    if (newComment !== "" && newComment.length < 600) {
       setError("");
       return true;
     } else {
-      setError("Comment may not be empty");
+      setError("Comment may not be empty or more than 600 characters");
       return false;
     }
   };
@@ -132,6 +132,7 @@ export default function Post({ post, username }) {
           <Button type="submit" variant="contained" color="primary">
             Post
           </Button>
+          <p>{newComment.length} characters</p>
         </form>
       </CardContent>
       <CardActions disableSpacing>
