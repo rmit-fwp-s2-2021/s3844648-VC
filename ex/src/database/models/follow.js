@@ -17,6 +17,7 @@ module.exports = (db, DataTypes) =>
           model: db.user,
           key: "username",
         },
+        onDelete: "CASCADE",
       },
     },
     {
